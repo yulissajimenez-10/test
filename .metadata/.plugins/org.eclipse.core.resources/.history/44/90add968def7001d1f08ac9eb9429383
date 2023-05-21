@@ -1,0 +1,189 @@
+package com.test.test.service;
+
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.test.test.dto.EmployeeDTO;
+import com.test.test.model.Employee;
+import com.test.test.repository.EmployeeRepository;
+import com.test.test.utils.CommonConstants;
+import com.test.test.utils.CsbResponse;
+import com.test.test.utils.EmployeeMapper;
+import org.imgscalr.Scalr;
+
+@Service
+@Transactional
+public class EmployeeServiceImpl implements EmployeeService {
+	
+   @Autowired
+    private EmployeeRepository EmployeeRepo;
+
+    @Autowired
+    private EmployeeMapper employeeMapper;
+    
+    
+	@Override
+	public CsbResponse save(EmployeeDTO employeeDTO) {
+		 CsbResponse csbResponse = new CsbResponse();		
+	        try{
+
+	            Employee employee = employeeMapper.mapeoEmployeeDTOToEmployee(employeeDTO);
+
+	            if (ObjectUtils.isNotEmpty(employee)){            	
+	            	
+	            		EmployeeRepo.save(employee);
+	            		
+	                csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_SUCCESS_GENERAL);
+	                csbResponse.setMessagesResponse("the employee de guardo correctamente - mapstruc");
+	                csbResponse.setObjectResponse(Arrays.asList(employee));
+	            }
+
+	        }catch (Exception e){
+	            csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_ERROR);
+	            csbResponse.setMessagesResponse("There is a problem with the service");
+	            csbResponse.setDescription(ExceptionUtils.getStackTrace(e));
+	        }
+	        return  csbResponse;
+	}	
+
+	
+
+	private String reducirTamanoImagen(String imagenBase64) throws IOException {
+	    // Decodificar la imagen Base64 a un arreglo de bytes
+	    byte[] imagenBytes = Base64.getDecoder().decode(imagenBase64);
+
+	    // Crear un objeto BufferedImage a partir de los bytes de la imagen
+	    ByteArrayInputStream bis = new ByteArrayInputStream(imagenBytes);
+	    BufferedImage imagen = ImageIO.read(bis);
+	    bis.close();
+
+	    // Redimensionar la imagen a un tamaño deseado (por ejemplo, 200x200 píxeles)
+	    BufferedImage imagenRedimensionada = Scalr.resize(imagen, Scalr.Method.QUALITY, 200, 200);
+
+	    // Crear un nuevo arreglo de bytes a partir de la imagen redimensionada
+	    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+	    ImageIO.write(imagenRedimensionada, "jpg", bos);
+	    byte[] imagenComprimidaBytes = bos.toByteArray();
+	    bos.close();
+
+	    // Codificar el arreglo de bytes de la imagen comprimida a Base64
+	    return Base64.getEncoder().encodeToString(imagenComprimidaBytes);
+	}
+
+
+
+	@Override
+	public CsbResponse finEmployee(int id) {
+		 CsbResponse csbResponse = new CsbResponse();
+
+	        try {
+
+	            Optional<Employee> employee = EmployeeRepo.findById(id);
+
+	            if (ObjectUtils.isNotEmpty(employee)) {
+	                EmployeeDTO EmployeeDTO = employeeMapper.mapeoEmployeeToEmployeeDTO(employee.get());
+
+	                csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_SUCCESS_GENERAL);
+	                csbResponse.setMessagesResponse("the employee se encontro - mapstruc");
+	                csbResponse.setObjectResponse(Arrays.asList(EmployeeDTO));
+	            }
+
+	        }catch (Exception e){
+	            csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_ERROR);
+	            csbResponse.setMessagesResponse("There is a problem with the service");
+	            csbResponse.setDescription(ExceptionUtils.getStackTrace(e));
+	        }
+	        return  csbResponse;
+	}
+
+	@Override
+	public CsbResponse getAllEmployees() {
+		 CsbResponse csbResponse = new CsbResponse();
+
+	        try {
+	            List<Employee> employees = EmployeeRepo.findAll();
+
+	            List<EmployeeDTO> employeeDTOs = employees
+	                    .stream()
+	                    .map(employee -> employeeMapper.mapeoEmployeeToEmployeeDTO(employee))
+	                    .collect(Collectors.toList());
+
+	            csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_SUCCESS_GENERAL);
+	            csbResponse.setMessagesResponse("Lista de employees encontrado - mapstruc");
+	            csbResponse.setObjectResponse(Arrays.asList(employeeDTOs));
+
+	        }catch (Exception e){
+	            csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_ERROR);
+	            csbResponse.setMessagesResponse("There is a problem with the service");
+	            csbResponse.setDescription(ExceptionUtils.getStackTrace(e));
+	        }
+	        return  csbResponse;
+	}
+
+	@Override
+	public CsbResponse delete(int id) {
+		CsbResponse csbResponse = new CsbResponse();
+        try {
+
+            Optional<Employee> employee = EmployeeRepo.findById(id);
+            EmployeeRepo.delete(employee.get());
+
+            csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_SUCCESS_GENERAL);
+            csbResponse.setMessagesResponse("Employee successfully removed - mapstruc!");
+
+        }catch (Exception e){
+            csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_ERROR);
+            csbResponse.setMessagesResponse("There is a problem with the service");
+            csbResponse.setDescription(ExceptionUtils.getStackTrace(e));
+        }
+        return  csbResponse;
+	}
+
+	@Override
+	public CsbResponse updateEmployee(EmployeeDTO employeeDTO, int id) {
+		 CsbResponse csbResponse = new CsbResponse();
+
+	        try {
+	            Employee employeeExistente = EmployeeRepo.findById(id).get();
+
+	            if (ObjectUtils.isNotEmpty(employeeExistente)){
+
+	            	employeeExistente.setNombres(employeeDTO.getNombres());
+	            	employeeExistente.setApellido(employeeDTO.getApellido());
+	            	employeeExistente.setEdad(employeeDTO.getEdad());
+	            	employeeExistente.setFechaIngreso(employeeDTO.getFechaIngreso());
+	            	employeeExistente.setFechaNacimiento(employeeDTO.getFechaNacimiento());
+	            	employeeExistente.setFechaTerminoContrato(employeeDTO.getFechaTerminoContrato());
+	                employeeExistente.setFlgEstd(employeeDTO.getFlgEstd());
+	            	employeeExistente.setImagen(employeeDTO.getImagen());          	
+	            	
+	          
+	            	EmployeeRepo.save(employeeExistente);
+
+	                csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_SUCCESS_GENERAL);
+	                csbResponse.setMessagesResponse("Employee updated successfully - mapstruc");
+	                csbResponse.setObjectResponse(Arrays.asList(employeeExistente));
+	            }
+
+	        }catch (Exception e){
+	            csbResponse.setCodeResponse(CommonConstants.CodeResponse.CODE_RESPONSE_ERROR);
+	            csbResponse.setMessagesResponse("There is a problem with the service");
+	            csbResponse.setDescription(ExceptionUtils.getStackTrace(e));
+	        }
+	        return  csbResponse;
+	}
+
+
+	
+
+}

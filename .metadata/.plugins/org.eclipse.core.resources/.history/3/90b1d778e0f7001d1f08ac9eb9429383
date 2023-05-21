@@ -1,0 +1,20 @@
+package com.test.test.utils;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+import com.test.test.dto.EmployeeDTO;
+import com.test.test.model.Employee;
+
+@Mapper(componentModel = "spring")
+public interface EmployeeMapper {
+	
+	
+	
+	Employee mapeoEmployeeDTOToEmployee(EmployeeDTO employeeDTO);
+
+
+    //@Mapping(source = "auto.description", target = "descriptionAuto")
+    //@Mapping(source = "auto.marca", target = "marcaAuto")
+   // @Mapping(source = "country", target = "nombreCountry")
+    EmployeeDTO mapeoEmployeeToEmployeeDTO(Employee employee);
+}

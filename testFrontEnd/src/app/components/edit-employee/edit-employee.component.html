@@ -1,0 +1,112 @@
+<!--Inicio: formulario employee-->
+<div class="card container-sm">
+    <div class="card-header text-center">Edit employee</div>
+    <div class="card-body">
+        <form novalidate (ngSubmit)="onSubmit()" [formGroup]="employeeEditForm">
+            <div class="form-group">
+                <label for="nombres">Names</label>
+                <input type="text" class="form-control" formControlName="nombres">
+                <div *ngIf="employeeEditForm.get('nombres')?.invalid && (employeeEditForm.get('nombres')?.dirty || employeeEditForm.get('nombres')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeEditForm.get('nombres')?.hasError('required')">Se requiere nombre.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Lasname</label>
+                <input type="text" class="form-control" formControlName="apellido">
+                <div *ngIf="employeeEditForm.get('apellido')?.invalid && (employeeEditForm.get('apellido')?.dirty || employeeEditForm.get('apellido')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeEditForm.get('apellido')?.hasError('required')">Se requiere apellido.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="edad">Age</label>
+                <input type="number" class="form-control" formControlName="edad">
+                <div *ngIf="employeeEditForm.get('edad')?.invalid && (employeeEditForm.get('edad')?.dirty || employeeEditForm.get('edad')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeEditForm.get('edad')?.hasError('required')">Se requiere edad.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fechaNacimiento">FechaNacimiento</label>
+                <input type="date" class="form-control" formControlName="fechaNacimiento" placeholder="1995-01-29">
+                <div *ngIf="employeeEditForm.get('fechaNacimiento')?.invalid && (employeeEditForm.get('fechaNacimiento')?.dirty || employeeEditForm.get('fechaNacimiento')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeEditForm.get('fechaNacimiento')?.hasError('required')">Se requiere
+                        Fecha nacimiento.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fechaIngreso">FechaIngreso</label>
+                <input type="date" class="form-control" formControlName="fechaIngreso" placeholder="1995-01-29">
+                <div *ngIf="employeeEditForm.get('fechaIngreso')?.invalid && (employeeEditForm.get('fechaIngreso')?.dirty || employeeEditForm.get('fechaIngreso')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeEditForm.get('fechaIngreso')?.hasError('required')">Se requiere
+                        Fecha ingreso.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="fechaTerminoContrato">FechaTerminoContrato</label>
+                <input type="date" class="form-control" formControlName="fechaTerminoContrato" placeholder="1995-01-29">
+                <div *ngIf="employeeEditForm.get('fechaTerminoContrato')?.invalid && (employeeEditForm.get('fechaTerminoContrato')?.dirty || employeeEditForm.get('fechaTerminoContrato')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeEditForm.get('fechaTerminoContrato')?.hasError('required')">Se requiere
+                        Fecha Termino Contrato.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="flgEstd">FlgEstd</label>
+                <input type="text" class="form-control" formControlName="flgEstd">
+                <div *ngIf="employeeEditForm.get('flgEstd')?.invalid && (employeeEditForm.get('flgEstd')?.dirty || employeeEditForm.get('flgEstd')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeEditForm.get('flgEstd')?.hasError('required')">Se requiere
+                        FlgEstd.
+                    </div>
+                </div>
+            </div>
+            <div><img [src]="imageSrc" alt="Imagen"></div>
+            <div class="form-group row">
+                <label for="imagen">Imagen</label>
+                <input type="file" class="form-control" formControlName="imagen">
+                <div *ngIf="employeeEditForm.get('imagen')?.invalid && (employeeEditForm.get('imagen')?.dirty || employeeEditForm.get('imagen')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeEditForm.get('imagen')?.hasError('required')">Se requiere
+                        imagen.
+                    </div>
+                </div>
+            </div>
+            <!--<button class="btn btn-primary" type="submit" [disabled]="employeeEditForm.invalid">Guardar</button>-->
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<!--Fin: formulario employee-->
+
+<!--Inicio: modal
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Alerta</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Por favor, complete el formulario correctamente.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+</ng-template>-->
+<!--Fin: modal-->
+
+
+<ng-template #content let-modal>
+    <app-alert-modal></app-alert-modal>
+</ng-template>

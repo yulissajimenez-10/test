@@ -1,0 +1,57 @@
+package com.test.test.utils;
+
+import com.test.test.dto.EmployeeDTO;
+import com.test.test.model.Employee;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2023-05-20T18:15:58-0500",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 3.33.0.v20230218-1114, environment: Java 17.0.7 (Eclipse Adoptium)"
+)
+@Component
+public class EmployeeMapperImpl implements EmployeeMapper {
+
+    @Override
+    public Employee mapeoEmployeeDTOToEmployee(EmployeeDTO employeeDTO) {
+        if ( employeeDTO == null ) {
+            return null;
+        }
+
+        Employee employee = new Employee();
+
+        employee.setApellido( employeeDTO.getApellido() );
+        employee.setEdad( employeeDTO.getEdad() );
+        employee.setFechaIngreso( employeeDTO.getFechaIngreso() );
+        employee.setFechaNacimiento( employeeDTO.getFechaNacimiento() );
+        employee.setFechaTerminoContrato( employeeDTO.getFechaTerminoContrato() );
+        employee.setFlgEstd( employeeDTO.getFlgEstd() );
+        employee.setIdEmpleado( employeeDTO.getIdEmpleado() );
+        employee.setImagen( employeeDTO.getImagen() );
+        employee.setNombres( employeeDTO.getNombres() );
+
+        return employee;
+    }
+
+    @Override
+    public EmployeeDTO mapeoEmployeeToEmployeeDTO(Employee employee) {
+        if ( employee == null ) {
+            return null;
+        }
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+
+        employeeDTO.setApellido( employee.getApellido() );
+        employeeDTO.setEdad( employee.getEdad() );
+        employeeDTO.setFechaIngreso( employee.getFechaIngreso() );
+        employeeDTO.setFechaNacimiento( employee.getFechaNacimiento() );
+        employeeDTO.setFechaTerminoContrato( employee.getFechaTerminoContrato() );
+        employeeDTO.setFlgEstd( employee.getFlgEstd() );
+        employeeDTO.setIdEmpleado( employee.getIdEmpleado() );
+        employeeDTO.setImagen( employee.getImagen() );
+        employeeDTO.setNombres( employee.getNombres() );
+
+        return employeeDTO;
+    }
+}

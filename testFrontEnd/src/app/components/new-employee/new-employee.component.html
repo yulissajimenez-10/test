@@ -1,0 +1,95 @@
+<!--Inicio: formulario employee-->
+
+<div class="card container-sm">
+    <div class="card-header text-center">Register employee</div>
+    <div class="card-body">
+        <form novalidate (ngSubmit)="onSubmit()" [formGroup]="employeeRegisterForm">
+            <div class="form-group">
+                <label for="nombres">Names</label>
+                <input type="text" class="form-control" formControlName="nombres">
+                <div *ngIf="employeeRegisterForm.get('nombres')?.invalid && (employeeRegisterForm.get('nombres')?.dirty || employeeRegisterForm.get('nombres')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeRegisterForm.get('nombres')?.hasError('required')">Se requiere nombre.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Lasname</label>
+                <input type="text" class="form-control" formControlName="apellido">
+                <div *ngIf="employeeRegisterForm.get('apellido')?.invalid && (employeeRegisterForm.get('apellido')?.dirty || employeeRegisterForm.get('apellido')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeRegisterForm.get('apellido')?.hasError('required')">Se requiere apellido.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="edad">Age</label>
+                <input type="number" class="form-control" formControlName="edad">
+                <div *ngIf="employeeRegisterForm.get('edad')?.invalid && (employeeRegisterForm.get('edad')?.dirty || employeeRegisterForm.get('edad')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeRegisterForm.get('edad')?.hasError('required')">Se requiere edad.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fechaNacimiento">FechaNacimiento</label>
+                <input type="date" class="form-control" formControlName="fechaNacimiento" placeholder="1995-01-29">
+                <div *ngIf="employeeRegisterForm.get('fechaNacimiento')?.invalid && (employeeRegisterForm.get('fechaNacimiento')?.dirty || employeeRegisterForm.get('fechaNacimiento')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeRegisterForm.get('fechaNacimiento')?.hasError('required')">Se requiere
+                        FechaNacimiento.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fechaIngreso">FechaIngreso</label>
+                <input type="date" class="form-control" formControlName="fechaIngreso" placeholder="1995-01-29">
+                <div *ngIf="employeeRegisterForm.get('fechaIngreso')?.invalid && (employeeRegisterForm.get('fechaIngreso')?.dirty || employeeRegisterForm.get('fechaIngreso')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeRegisterForm.get('fechaIngreso')?.hasError('required')">Se requiere
+                        Fecha ingreso.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="fechaTerminoContrato">FechaTerminoContrato</label>
+                <input type="date" class="form-control" formControlName="fechaTerminoContrato" placeholder="1995-01-29">
+                <div *ngIf="employeeRegisterForm.get('fechaTerminoContrato')?.invalid && (employeeRegisterForm.get('fechaTerminoContrato')?.dirty || employeeRegisterForm.get('fechaTerminoContrato')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeRegisterForm.get('fechaTerminoContrato')?.hasError('required')">Se requiere
+                        Fecha Termino Contrato.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="flgEstd">FlgEstd</label>
+                <input type="text" class="form-control" formControlName="flgEstd">
+                <div *ngIf="employeeRegisterForm.get('flgEstd')?.invalid && (employeeRegisterForm.get('flgEstd')?.dirty || employeeRegisterForm.get('flgEstd')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeRegisterForm.get('flgEstd')?.hasError('required')">Se requiere
+                        FlgEstd.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="imagen">Imagen</label>
+                <input type="file" class="form-control" formControlName="imagen">
+                <!--<input type="file" class="form-control" formControlName="imagen" (change)="handleFileInput($event)">-->
+                <div *ngIf="employeeRegisterForm.get('imagen')?.invalid && (employeeRegisterForm.get('imagen')?.dirty || employeeRegisterForm.get('imagen')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="employeeRegisterForm.get('imagen')?.hasError('required')">Se requiere
+                        imagen.
+                    </div>
+                </div>
+            </div>
+            <!--<button class="btn btn-primary" type="submit"
+                    [disabled]="employeeRegisterForm.invalid">Register</button>-->
+            <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+    </div>
+</div>
+<!--Fin: formulario employee-->
+
+<ng-template #content let-modal>
+    <app-alert-modal></app-alert-modal>
+</ng-template>
